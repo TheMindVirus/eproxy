@@ -1,0 +1,116 @@
+[
+    {
+        "id": "8ca79836.df8948",
+        "type": "tab",
+        "label": "eproxy",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "0629c01bca55d4c6",
+        "type": "http in",
+        "z": "8ca79836.df8948",
+        "name": "",
+        "url": "<device-name>/*",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 330,
+        "y": 420,
+        "wires": [
+            [
+                "52f8ddefdc48c269"
+            ]
+        ]
+    },
+    {
+        "id": "3ee69206ee9e6588",
+        "type": "http response",
+        "z": "8ca79836.df8948",
+        "name": "http response",
+        "statusCode": "",
+        "headers": {},
+        "x": 1080,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "5f9bd905d562554d",
+        "type": "http request",
+        "z": "8ca79836.df8948",
+        "name": "",
+        "method": "use",
+        "ret": "bin",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 710,
+        "y": 420,
+        "wires": [
+            [
+                "513e080d9afc602e"
+            ]
+        ]
+    },
+    {
+        "id": "1712cf3a5da61b05",
+        "type": "debug",
+        "z": "8ca79836.df8948",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "debug",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 710,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "52f8ddefdc48c269",
+        "type": "function",
+        "z": "8ca79836.df8948",
+        "name": "ingress",
+        "func": "msg.url = \"<device-url>\" + msg.req.params[0];\nmsg.method = msg.req.method;\nmsg.debug = msg;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 420,
+        "wires": [
+            [
+                "1712cf3a5da61b05",
+                "5f9bd905d562554d"
+            ]
+        ]
+    },
+    {
+        "id": "513e080d9afc602e",
+        "type": "function",
+        "z": "8ca79836.df8948",
+        "name": "egress",
+        "func": "var case_correct = function(data)\n{\n    for (var oldkey in data)\n    {\n        var newkey = \"\";\n        var flag = 1;\n        for (var i = 0; i < oldkey.length; ++i)\n        {\n            if (oldkey[i] != \"-\")\n            {\n                if (flag == 1) { newkey += oldkey[i].toUpperCase(); flag = 0; }\n                else { newkey += oldkey[i].toLowerCase(); }\n            }\n            else { newkey += \"-\"; flag = 1; }\n        }\n        tmp = data[oldkey];\n        delete data[oldkey];\n        data[newkey] = tmp;\n    }\n    return data;\n}\nmsg.headers = case_correct(msg.headers);\n\n//!!!BUG: Lack of Trailing Slash for Directories,\n//        Extraneous Trailing Slash for Files\nif ((msg.headers[\"Content-Type\"] == \"text/html\")\n&& (!msg.req.url.endsWith(\"/\")))\n{\n    msg.statusCode = 301;\n    msg.headers[\"Location\"] = msg.req.url + \"/\";\n    msg.payload = \"REDIRECT\";\n}\n\nmsg.debug = msg;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 890,
+        "y": 420,
+        "wires": [
+            [
+                "3ee69206ee9e6588",
+                "1712cf3a5da61b05"
+            ]
+        ]
+    }
+]
