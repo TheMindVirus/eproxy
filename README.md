@@ -86,3 +86,5 @@ and ideally remove the debug nodes if you don't need them for staging or product
 * There are many other contrib nodes available for Node-RED that will provide reverse proxying.
 * While Node-RED is largely free, services provided by NGINX and CA Authorities tend to be paid.
 ```
+
+![working](/working.png)
