@@ -49,10 +49,10 @@ Please consult the instruction manual for your router or web hosting service. \
 (Change port 1880 to 80)
 
 In the `epoxy.json` file, replace `<device-name>` with the domain name you would like to use \
-that will follow the URL (e.g. "http://localhost:1880/<device-name>/").
+that will follow the URL (e.g. `http://localhost:1880/<device-name>/`).
 
 Also in the `epoxy.json` file, replace `<device-url>` with the local URL of the server \
-that you want to forward to (e.g. "http://hostname.local/web/").
+that you want to forward to (e.g. `http://hostname.local/web/`).
 
 Alternatively, you can change these values on the Node-RED Dashboard by double-clicking nodes. \
 Import your flow by clicking the Hamburger Icon, select "Import" and browse for `epoxy.json`.
