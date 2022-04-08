@@ -88,3 +88,6 @@ and ideally remove the debug nodes if you don't need them for staging or product
 ```
 
 ![working](/working.png)
+
+## Custom HTTP Response Codes
+### [HTTP]: 418 - I'm a Teapot - https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/418
